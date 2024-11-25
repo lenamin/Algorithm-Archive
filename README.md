@@ -27,4 +27,15 @@
   string doubleToString = to_string(dnum);
   string floatToString = to_string(fnum);
   ```
-  
+
+### 부분 합 구하기 
+- 특정 구간의 일부 합을 구할 때 매번 합을 구하게 되면 효율이 떨어져 시간 초과가 날 수 있다.
+- 각 자리수의 합을 구한 배열을 미리 구해놓고 (배열 값 받을 때)
+  > S[i] = S[i-1] + A[i]
+
+### 입력 출력 시간초과 막기 위한 코드 
+```cpp
+ios::sync_with_stdio(false);
+cin.tie(NULL);
+cout.tie(NULL);
+```
