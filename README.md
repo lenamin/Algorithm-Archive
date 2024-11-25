@@ -65,7 +65,7 @@ vector<vector<int>> numbers(n+1, vector<int>(n+1, 0));
   4) 변경된 sums 배열에서 원소값이 0인 개수를 count 한다 
   5) sums 배열에서 원소값이 같은 인덱스 개수를 센다 -> 같은거 찾으면 되겠지
  
-### [연결리스트 std::list로 구현하기](b568a822232c9100633fe29d105cbd802322f05d)
+### [연결리스트 std::list로 구현하기]([b568a822232c9100633fe29d105cbd802322f05d](https://github.com/lenamin/BaekJoon/commit/a9039c13233b5d145eb8cd197f60da34f383d37c))
 vertex가 5개, edgerk 6개인 연결리스트를 list를 이용해 값을 삽입해보자. 
 
 - list 타입을 품고 있는 배열이니까 선언은 다음과 같이 할 수 있음
