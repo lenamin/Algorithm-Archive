@@ -3,6 +3,7 @@ using namespace std;
 
 int n;
 
+/*
 vector<string> split(const string& input, string delimeter) {
   vector<string> result;
   auto start = 0;
@@ -43,3 +44,47 @@ int main() {
   }
 }
 
+*/
+
+int main() {
+  cin >> n;
+  
+  string pt;
+  cin >> pt;
+
+  vector<string> fn;
+
+  for (int i = 0; i < n; i++) {
+    string temp;
+    cin >> temp;
+    fn.push_back(temp);
+  }
+
+  int idx = pt.find("*");
+  string prefix = pt.substr(0, idx);
+  string suffix = pt.substr(idx + 1);
+
+  /* 사이즈 먼저 체크하고 이 다음에 !! 
+  for ( auto f : fn ) {
+    if (prefix.size() + suffix.size() > f.size()) {
+      cout << "NE" << '\n';
+    } else if ((f.substr(0, idx) == prefix) && (f.substr(idx + 1) == suffix)) {
+      cout << "DA" << '\n';
+    } else {
+      cout << "NE" << '\n';
+    }
+  }
+  */
+  for (auto f : fn) {
+    if (prefix.size() + suffix.size() > f.size()) {
+      cout << "NE" << '\n';
+    } else {
+      if ((f.substr(0, prefix.size()) == prefix) && (f.substr(f.size() - suffix.size()) == suffix)) {
+        cout << "DA" << '\n';
+      } else {
+        cout << "NE" << '\n';
+      }
+    }
+  }
+  return 0;
+}
