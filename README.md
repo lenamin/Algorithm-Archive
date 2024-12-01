@@ -1,7 +1,8 @@
 # 다시 풀어볼 문제들 
-|문제번호|문제이름|분류|
-|---|---|---|
-|11655|[ROT](https://www.acmicpc.net/problem/11655)|구현|
+|문제번호|문제이름|분류|키워드|
+|---|---|---|---|
+|11655|[ROT](https://www.acmicpc.net/problem/11655)|구현|ascii활용 문자열|
+|9996|[한국이 그리울 때 서버에 접속하지](https://www.acmicpc.net/problem/9996)|구현, 문자열|rfind, split, substr|
 
 
 
@@ -146,3 +147,37 @@ vertex가 5개, edgerk 6개인 연결리스트를 list를 이용해 값을 삽�
 
 ### 공백 포함한 입력받기 
 cin 으로 받으면 공백을 기준으로 입력을 받게 됨 → 이는 `getline(cin, n)` 으로 받아줘야 한다. 
+
+### split 함수 만들어서 쓰기 
+```cpp
+vector<string> split(const string& input, string delimeter) {
+  vector<string> result;
+  auto start = 0;
+  auto end = input.find(delimeter);
+
+  while (end != string::npos) {
+    result.push_back(input.substr(start, end - start));
+    start = end + delimeter.size();
+    end = input.find(delimeter, start);
+  }
+  result.push_back(input.substr(start));
+  return result;
+}
+```
+
+### find, rfind 함수 
+find는 원하는 값을 찾은 첫번째 위치를 반환한다. 
+뒤에서부터 찾고싶다면, `rfind`를 사용하면 된다. 
+
+```cpp
+  for (auto f : fn) {
+
+    if (splits[0].size() + splits[1].size() > f.size()) { 
+      cout << "NE" << '\n';
+    } else if (f.find(splits[0]) == 0 && f.rfind(splits[1]) == (f.size() - splits[1].size())) {
+      cout << "DA" << '\n';
+    } else {
+      cout << "NE" << '\n';
+    }
+  }
+```
