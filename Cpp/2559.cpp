@@ -1,3 +1,5 @@
+// 시간 초과 난 코드 O(mn) 이라 시간초과 남 
+/*
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -34,3 +36,25 @@ int main() {
   }
   
   cout << *max_element(psum.begin(), psum.end());
+}*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int n, k, temp, ret = -1000004;
+int main() {
+  cin >> n >> k;
+  vector<int> psum(n+1, 0);
+
+  for (int i = 1; i <= n; i++) {
+    cin >> temp;
+    psum[i] = psum[i-1] + temp;
+  }
+
+  for (int i = k; i <= n; i++) {
+    ret = max(ret, psum[i] - psum[i-k]);
+  }
+
+  cout << ret << '\n';
+  return 0;
+}
