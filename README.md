@@ -3,7 +3,8 @@
 |---|---|---|---|
 |11655|[ROT](https://www.acmicpc.net/problem/11655)|구현|ascii활용 문자열|
 |9996|[한국이 그리울 때 서버에 접속하지](https://www.acmicpc.net/problem/9996)|구현, 문자열|rfind, split, substr|
-
+|2559|[수열](https://www.acmicpc.net/problem/2559)|부분합||
+|1620|[나는야 포켓몬 마스터 이다솜](https://www.acmicpc.net/problem/1620)|맵|atoi(s.c_str()), map|
 
 
 # CPP Cheat Sheet 
@@ -181,3 +182,50 @@ find는 원하는 값을 찾은 첫번째 위치를 반환한다.
     }
   }
 ```
+
+### key <-> value 양방향 검색이 필요한 경우 자료구조를 하나만 쓰면 시간초과가 뜬다 
+- 예를 들어, 아래와 같이 map<int, string> 타입으로 선언했을 경우, value 값을 통해 key를 찾으려할 때 O(n) 만큼의 시간복잡도가 걸리므로 시간초과가 뜨는 것.
+  ```cpp
+    for (int i = 0; i < k; i++) {
+    string a;
+    cin >> a;
+
+    if (isdigit(a[0])) {
+      int m = atoi(a.c_str());
+      string key = p[m];
+      cout << key << '\n';
+    } 
+    if (typeid(a) == typeid(string)) {
+      for (const auto& pk : p) {
+        if (pk.second == a) {
+          cout << pk.first << '\n';
+        }
+      }
+    } 
+  }
+  ```
+- 자료구조 두 개를 만들어서 사용하면 map에서 find를 하는 건 O(logn)이므로 시간을 훨씬 단축할 수 있다.
+  ```cpp
+  map<string, int> mp;
+  map<int, string> mp2;
+
+  // ... 
+
+  for (int i = 0; i < k; i++) {
+    string s;
+    cin >> s;
+
+    // 문자열이면 
+    if (atoi(s.c_str()) == 0) {
+      auto q = mp[s];
+      cout << q << '\n';
+    } else {
+      int q = stoi(s);
+      cout << mp2[q] << '\n';
+    }
+  }
+  ```
+### 입력받은 값이 int인지 string인지 검사하고 싶을 때 typeid 등을 쓰지 않아도 된다 
+#### `atoi(s.c_str())` 활용하기 
+- `c_str()` 은 string을 const char*로 바꿔주고
+- 이를 `atoi` 에서는 정수로 변환해준다. 만약 문자열을 받지 않았다면 0을 반환하므로, 분기처리를 해서 문자열인지 문자열이 아닌지 확인할 수 있다! 
