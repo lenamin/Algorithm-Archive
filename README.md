@@ -5,6 +5,8 @@
 |9996|[한국이 그리울 때 서버에 접속하지](https://www.acmicpc.net/problem/9996)|구현, 문자열|rfind, split, substr|
 |2559|[수열](https://www.acmicpc.net/problem/2559)|부분합||
 |1620|[나는야 포켓몬 마스터 이다솜](https://www.acmicpc.net/problem/1620)|맵|atoi(s.c_str()), map|
+|프로그래머스|[네트워크](https://school.programmers.co.kr/learn/courses/30/lessons/43162)|BFS||
+|2606|[바이러스](https://www.acmicpc.net/problem/2606)|DFS|인접리스트 활용|
 
 
 # CPP Cheat Sheet 
@@ -240,4 +242,47 @@ find는 원하는 값을 찾은 첫번째 위치를 반환한다.
 ### 입력받은 값이 int인지 string인지 검사하고 싶을 때 typeid 등을 쓰지 않아도 된다 
 #### `atoi(s.c_str())` 활용하기 
 - `c_str()` 은 string을 const char*로 바꿔주고
-- 이를 `atoi` 에서는 정수로 변환해준다. 만약 문자열을 받지 않았다면 0을 반환하므로, 분기처리를 해서 문자열인지 문자열이 아닌지 확인할 수 있다! 
+- 이를 `atoi` 에서는 정수로 변환해준다. 만약 문자열을 받지 않았다면 0을 반환하므로, 분기처리를 해서 문자열인지 문자열이 아닌지 확인할 수 있다!
+
+
+### Connected Components 문제에서 카운트 시점과 사소한 실수들
+#### 더 이상 연결요소가 없어서 for문으로 돌아왔을 때, dfs를 호출하기 전에 카운트를 증가시킨다. 
+
+```cpp
+for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+        if (a[i][j] <= k) { 
+            f[i][j] = 1; // 1이면 잠긴다 // 0이면 안잠기는 것
+
+            if (visited[i][j] == 0) {
+                cnt++;
+                dfs(i, j);
+            }
+        }
+    }
+}
+```
+
+#### 만약 각 연결요소의 수를 카운트 하고 싶다면 (ex. 2667 단지번호 붙이기 문제) 
+visited[y][x]를 방문처리 할 때 마다 증가시키면 된다. 
+
+```cpp
+void dfs(int y, int x) {
+    cnt += 1;
+    visited[y][x] = 1; // 현재 노드 방문처리 
+
+    // 이제 (ny, nx) 계산해서 하나씩 주변에 있는지 체크해서 방문할 것 
+    for (int i = 0; i < 4; i++) {
+        int ny = y + dy[i];
+        int nx = x + dx[i];
+
+        if (visited[ny][nx] == 1) continue;
+        if (arr[ny][nx] == 0) continue;
+        
+        dfs(ny, nx);
+    }
+}
+```
+
+
+#### 제발 전역으로 vector를 선언했고, 크기는 입력받은 뒤에 정해진다면 resize를 해주자..아니면 그냥 배열로 선언할 것
