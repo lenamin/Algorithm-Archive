@@ -7,6 +7,8 @@
 |1620|[나는야 포켓몬 마스터 이다솜](https://www.acmicpc.net/problem/1620)|맵|atoi(s.c_str()), map|
 |프로그래머스|[네트워크](https://school.programmers.co.kr/learn/courses/30/lessons/43162)|BFS||
 |2606|[바이러스](https://www.acmicpc.net/problem/2606)|DFS|인접리스트 활용|
+|프로그래머스|[단속카메라](https://school.programmers.co.kr/learn/courses/30/lessons/42884)|그리디||
+|프로그래머스|[야근지수](https://school.programmers.co.kr/learn/courses/30/lessons/12927)|Priority Queue||
 
 
 # CPP Cheat Sheet 
@@ -286,3 +288,23 @@ void dfs(int y, int x) {
 
 
 #### 제발 전역으로 vector를 선언했고, 크기는 입력받은 뒤에 정해진다면 resize를 해주자..아니면 그냥 배열로 선언할 것
+
+
+### 이차원 벡터 사용자 정의 정렬하기 
+별도로 함수 만드는 것보다 람다함수 이용하니 훨씬 간결하다. 
+```cpp
+sort(routes.begin(), routes.end(), [](vector<int> a, vector<int> b) {
+   return a[1] < b[1]; 
+});
+```
+
+### 우선순위 큐 
+- 우선순위 큐를 정의해서 값들을 넣으면 알아서 최소힙 또는 최대힙으로 정렬된다.
+- 우선순위 큐 순회하기
+  ```cpp
+    while (!pq.empty()) {
+        int k = pq.top();
+        pq.pop();
+    }
+    
+  ```
