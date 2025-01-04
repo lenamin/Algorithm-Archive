@@ -9,6 +9,7 @@
 |2606|[바이러스](https://www.acmicpc.net/problem/2606)|DFS|인접리스트 활용|
 |프로그래머스|[단속카메라](https://school.programmers.co.kr/learn/courses/30/lessons/42884)|그리디||
 |프로그래머스|[야근지수](https://school.programmers.co.kr/learn/courses/30/lessons/12927)|Priority Queue||
+|1325|[효율적으로 해킹하기](https://www.acmicpc.net/problem/1325)|BFS|*max_element, fill|
 
 
 # CPP Cheat Sheet 
@@ -308,3 +309,28 @@ sort(routes.begin(), routes.end(), [](vector<int> a, vector<int> b) {
     }
     
   ```
+
+### memset vs fill 
+배열로 선언했을 때는 visited 같은 배열을 초기화해줄 때 `memset` 을 사용한다. 
+```cpp
+memset(visited, 0, sizeof(visited));
+```
+
+벡터로 선언했을 때는 `fill`을 사용한다. 
+```cpp
+fill(visited.begin(), visited.end(), false); 
+```
+
+### *max_element 
+for문 돌려서 최대값 찾는것보다 훨씬 간편하다. 
+```cpp
+int M = *max_element(ans.begin(), ans.end());
+```
+
+- `*` 가 필요한 이유
+  - `max_element` 는 반환하는 이터레이터 (주소)를 역참조해 값을 얻기 위해 필요하다.
+  - `max_element`는 범위 내의 최대값의 위치를 반환하기 때문
+  - 그래서 이 값을 사용하기 위해는 역참조로 해당 위치에 있는 실제 값을 가져와야 함
+- 만약 `*`를 붙이지 않는다면?
+  - 컴파일 에러 발생
+  - `auto`로 선언하면 에러는 발생하지 않지만, 이터레이터의 메모리 주소를 반환한다. 
