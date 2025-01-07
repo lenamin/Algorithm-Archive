@@ -10,6 +10,7 @@
 |프로그래머스|[단속카메라](https://school.programmers.co.kr/learn/courses/30/lessons/42884)|그리디||
 |프로그래머스|[야근지수](https://school.programmers.co.kr/learn/courses/30/lessons/12927)|Priority Queue||
 |1325|[효율적으로 해킹하기](https://www.acmicpc.net/problem/1325)|BFS|*max_element, fill|
+|322|[Minimum Genetic Mutation](https://leetcode.com/problems/minimum-genetic-mutation/?envType=study-plan-v2&envId=top-interview-150)|BFS||
 
 
 # CPP Cheat Sheet 
