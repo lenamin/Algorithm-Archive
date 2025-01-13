@@ -11,9 +11,25 @@
 |프로그래머스|[야근지수](https://school.programmers.co.kr/learn/courses/30/lessons/12927)|Priority Queue||
 |1325|[효율적으로 해킹하기](https://www.acmicpc.net/problem/1325)|BFS|*max_element, fill|
 |322|[Minimum Genetic Mutation](https://leetcode.com/problems/minimum-genetic-mutation/?envType=study-plan-v2&envId=top-interview-150)|BFS||
+|1753|[최단경로](https://www.acmicpc.net/problem/1753)|다익스트라||
 
 
 # Cheat Sheet 
+
+### Dijkstra 
+- 로직
+  1. 인접리스트로 그래프 정보를 자료구조에 담는다
+  2. 최단거리 배열 초기화하기 (충분히 큰 값으로)
+  3. 값이 가장 작은 노드 골라서 우선순위 큐에 넣기
+  4. 최단거리배열 현재 값과 선택 노드 최단거리배열 값 + 에지 weight 중 작은 값을 최단거리배열에 업데이트한다
+  5. 3~4번 과정 반복 -> 출발 노드와 그 외 노드 간의 최단거리 구할 수 있음
+
+- 인접리스트와 priority_queue 자료형에서 기억해야 할 것
+  - 인접리스트에서는 `vector<vector<pair<int, int>>>` 에서 {노드, 가중치} 순으로 정의했다.
+  - 하지만 우선순위 큐에서는 {가중치, 노드} 로 정의한다.
+  - priority_queue를 min heap으로 만들었을 때 가중치를 오름차순 정렬을 하기 위한 것!
+
+- 시간복잡도 : O(E logV)
 
 ### Topology Sort 
 - 사이클이 없는 방향 그래프에서 사용할 수 있는 정렬 알고리즘 (노드를 선형적으로 정렬한다)
