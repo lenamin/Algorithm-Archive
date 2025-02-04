@@ -16,6 +16,14 @@
 
 # Cheat Sheet 
 
+### MST - Kruskal 
+- 에지 기준 알고리즘으로 에지 리스트를 정의해야 함
+  ```cpp
+  typedef struct Edge {
+    int f, t, w;
+  }
+  ```
+
 ### Dijkstra 
 - 로직
   1. 인접리스트로 그래프 정보를 자료구조에 담는다
