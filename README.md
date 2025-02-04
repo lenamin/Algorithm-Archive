@@ -1,28 +1,23 @@
-# 다시 풀어볼 문제들 
-|문제번호|문제이름|분류|키워드|
-|---|---|---|---|
-|11655|[ROT](https://www.acmicpc.net/problem/11655)|구현|ascii활용 문자열|
-|9996|[한국이 그리울 때 서버에 접속하지](https://www.acmicpc.net/problem/9996)|구현, 문자열|rfind, split, substr|
-|2559|[수열](https://www.acmicpc.net/problem/2559)|부분합||
-|1620|[나는야 포켓몬 마스터 이다솜](https://www.acmicpc.net/problem/1620)|맵|atoi(s.c_str()), map|
-|프로그래머스|[네트워크](https://school.programmers.co.kr/learn/courses/30/lessons/43162)|BFS||
-|2606|[바이러스](https://www.acmicpc.net/problem/2606)|DFS|인접리스트 활용|
-|프로그래머스|[단속카메라](https://school.programmers.co.kr/learn/courses/30/lessons/42884)|그리디||
-|프로그래머스|[야근지수](https://school.programmers.co.kr/learn/courses/30/lessons/12927)|Priority Queue||
-|1325|[효율적으로 해킹하기](https://www.acmicpc.net/problem/1325)|BFS|*max_element, fill|
-|322|[Minimum Genetic Mutation](https://leetcode.com/problems/minimum-genetic-mutation/?envType=study-plan-v2&envId=top-interview-150)|BFS||
-|1753|[최단경로](https://www.acmicpc.net/problem/1753)|다익스트라||
-
-
 # Cheat Sheet 
 
-### MST - Kruskal 
+### MST - Kruskal ([최소신장트리](https://www.acmicpc.net/problem/1197))
 - 에지 기준 알고리즘으로 에지 리스트를 정의해야 함
   ```cpp
   typedef struct Edge {
-    int f, t, w;
+    int f, t, w; // from, to, weight (하나의 에지가 from 노드로부터 to 노드까지 가중치 w 를 가진다) 
+    bool operator > (const Edge& tmp) const { // 이러고 priority_queue를 greater<Edge>로 해주면 된다 
+      return w > tmp.w;
+    }
   }
   ```
+- Union Find 할 때 자꾸 실수하는 부분
+  - `find()` 함수에서 `return parent[a] = find(parent[a]);` 이다. <br>
+    `parent[a]`를 하나로 생각하면 쉽다. 저 변수의 부모 노드를 찾아서 `parent[a]` 에 넣어주는 거니까!
+
+- MST 는 결국 사이클이 없어야 하므로
+  - Union Find 체크
+  - 대표 노드 같지 않으면 사이클이 없는거니까 union 연산 수행
+  - 수행할 때 마다 edge 수 증가하고, 이게 v-1 보다 커지면 while 문 종료 
 
 ### Dijkstra 
 - 로직
