@@ -78,3 +78,31 @@ void quick_sort(vector<int> &arr, int s, int e, int k) {
         quick_sort(arr, p + 1, e, k); // 오른쪽 정렬 
     }
 }
+*/
+
+
+#include <vector>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+
+int main() {
+
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int n, m;
+    cin >> n >> m;
+
+    vector<int> arr(n);
+
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    // nth_element(arr.begin(), arr.begin() + (m - 1), arr.end());
+    sort(arr.begin(), arr.end());
+    
+    cout << arr[m - 1] << '\n';
+}
