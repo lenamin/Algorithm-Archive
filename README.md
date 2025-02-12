@@ -1,5 +1,44 @@
 # Cheat Sheet 
 
+### Merge Sort구현에서 실수한 것들
+1. 배열 크기만큼 tmp를 한 번 할당하고, 병합할 구간만 복사하자 <br>
+  - tmp를 매번 새로 할당하면 불필요한 시간복잡도(O(n)) 증가
+  - tmp를 전체 복사하면 비효율적이며, 시간 초과 발생 가능
+  - tmp를 한 번만 할당하고, 병합할 범위만 복사
+    ```cpp
+    for (int i = s; i <= e; i++) { 
+        tmp[i] = arr[i];  // 병합할 부분만 복사해야 시간 초과 방지
+    }
+    ```
+    <br>
+2. swap 횟수는 idx2 - k로 업데이트해야 한다.
+  - idx1이 이동할 때 swap을 증가시키면 잘못된 값이 나올 수 있음 (idx1이 이동하는 것은 기존 순서를 유지하는 것이므로 swap이 발생하지 않으니까) 
+  
+    ```cpp
+    while (idx1 <= m && idx2 <= e) {
+        if (tmp[idx1] > tmp[idx2]) {  
+            arr[k] = tmp[idx2];  
+            result += (idx2 - k);  // 오른쪽 값이 앞으로 오면서 swap 발생  
+            k++;
+            idx2++;
+        } else {
+            arr[k] = tmp[idx1];  // 왼쪽 값은 순서 그대로 삽입  
+            k++;
+            idx1++;
+        }
+    }
+    ```
+    
+    <br>
+3. 병합 정렬을 적용할 때 종료 조건을 확실히 처리!! 
+  - if (s >= e) return;을 빠뜨리면 무한 재귀 발생
+    ```cpp
+    void merge_sort(int s, int e) {
+        if (s >= e) return;  // 기저 조건 (배열 크기가 1이면 종료)
+    }
+    ```
+
+
 ### MST - Kruskal ([최소신장트리](https://www.acmicpc.net/problem/1197))
 - 에지 기준 알고리즘으로 에지 리스트를 정의해야 함
   ```cpp
