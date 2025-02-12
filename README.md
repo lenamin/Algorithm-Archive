@@ -340,6 +340,12 @@ sort(routes.begin(), routes.end(), [](vector<int> a, vector<int> b) {
 });
 ```
 
+### sort(), nth_element() 시간복잡도 
+- sort() 시간복잡도는 평균 O(nlogn), 최악의 경우는 O(n^2)
+- nth_element(1st, nth, last) 시간복잡도는 평균 O(n), 최악의 경우는 O(n^2)
+
+- O(nlogn) 시간복잡도 안에 수행될 것임이 분명한데도 시간초과가 뜬다면? -> 결국 입출력 처리 때문인 것,,, 
+
 ### 우선순위 큐 
 - 우선순위 큐를 정의해서 값들을 넣으면 알아서 최소힙 또는 최대힙으로 정렬된다.
 - 우선순위 큐 순회하기
