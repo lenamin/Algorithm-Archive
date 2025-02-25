@@ -1,0 +1,5 @@
+-- 가격이 제일 비싼 식품의 식품 ID, 식품이름, 식품코드, 식품분류, 식품가격 조회
+-- MAX값을 가진 해당 row 정보들 가져오기 
+SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_CD, CATEGORY, PRICE
+FROM FOOD_PRODUCT
+WHERE PRICE = (SELECT MAX(PRICE) FROM FOOD_PRODUCT);
