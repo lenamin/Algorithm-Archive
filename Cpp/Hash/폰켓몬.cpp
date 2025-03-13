@@ -1,3 +1,5 @@
+// 프로그래머스 폰켓몬 
+
 // 첫번째 코드 
 #include <bits/stdc++.h>
 using namespace std;
@@ -21,4 +23,16 @@ int solution(vector<int> nums)
     }
     
     return answer;
+}
+
+int solution2(vector<int> nums) {
+    unordered_set<int> st(nums.begin(), nums.end());
+    int answer = 0;
+
+    return min(st.size(), nums.size() / 2);
+}
+
+int main() {
+    cout << solution({3, 3, 2, 2, 2, 2});
+    cout << solution2({3, 3, 2, 2, 2, 2});
 }
