@@ -1,0 +1,42 @@
+-- 자동차 종류가 트럭인 자동차의 대여 기록에 대해서 
+-- 대여기록 별로 
+--  대여기록 ID (HISTORY_ID), 대여금액 (AS FEE) 구하기 
+
+-- CAR_RENTAL_COMPANY_CAR // CAR_ID, 차량 타입, 요금, 옵션
+-- CAR_RENTAL_COMPANY_RENTAL_HISTORY // HISTORY_ID, CAR_ID, 대여시작날짜, 대여끝날짜
+-- CAR_RENTAL_COMPANY_DISCOUNT_PLAN // PLAN_ID, 차량 타입, 기간타입, 할인률 
+
+-- # SELECT *
+-- # FROM CAR_RENTAL_COMPANY_DISCOUNT_PLAN D, (SELECT C.DAILY_FEE, H.END_DATE - H.START_DATE AS DURATION
+-- #                                 -- car_id, car_type, daily_fee,
+-- #                                 -- options, history_id, car_id, start_date, end_date
+-- #                                         FROM CAR_RENTAL_COMPANY_CAR C, CAR_RENTAL_COMPANY_RENTAL_HISTORY H
+-- #                                         WHERE C.CAR_ID = H.CAR_ID AND C.CAR_TYPE = '트럭') AS T  
+-- # WHERE D.CAR_TYPE = '트럭' 
+
+-- # SELECT T.HISTORY_ID, ROUND(T.DAILY_FEE * T.DURATION * (1 - (CASE 
+-- #             WHEN (T.DURATION < 7) THEN 0
+-- #             WHEN (T.DURATION >= 7 AND T.DURATION < 30) THEN 0.05
+-- #             WHEN (T.DURATION >= 30 AND T.DURATION < 90) THEN 0.07
+-- #             WHEN (T.DURATION >= 90) THEN 0.1 END)), 0) AS FEE
+-- # FROM (SELECT H.HISTORY_ID, C.DAILY_FEE, (DATEDIFF(H.END_DATE, H.START_DATE) + 1) AS DURATION 
+-- #       FROM CAR_RENTAL_COMPANY_CAR C
+-- #       INNER JOIN CAR_RENTAL_COMPANY_RENTAL_HISTORY H
+-- #       ON C.CAR_ID = H.CAR_ID 
+-- #       WHERE C.CAR_TYPE = '트럭') AS T
+-- # WHERE T.HISTORY_ID
+-- # ORDER BY FEE DESC, T.HISTORY_ID DESC;
+
+SELECT T.HISTORY_ID, ROUND(T.DURATION * T.DAILY_FEE * (1 - COALESCE(MAX(D.DISCOUNT_RATE) / 100, 0))) AS FEE
+FROM (SELECT H.HISTORY_ID, C.DAILY_FEE, (DATEDIFF(H.END_DATE, H.START_DATE) + 1) AS DURATION 
+        FROM CAR_RENTAL_COMPANY_CAR C
+        INNER JOIN CAR_RENTAL_COMPANY_RENTAL_HISTORY H
+        ON C.CAR_ID = H.CAR_ID 
+        WHERE C.CAR_TYPE = '트럭') AS T
+LEFT JOIN CAR_RENTAL_COMPANY_DISCOUNT_PLAN D
+ON D.CAR_TYPE = '트럭' AND T.DURATION >= 
+    (CASE WHEN D.DURATION_TYPE = '7일 이상' THEN 7
+          WHEN D.DURATION_TYPE = '30일 이상' THEN 30
+          WHEN D.DURATION_TYPE = '90일 이상' THEN 90 ELSE 0 END)
+GROUP BY HISTORY_ID
+ORDER BY FEE DESC, T.HISTORY_ID DESC;
