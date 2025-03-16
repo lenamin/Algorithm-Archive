@@ -253,19 +253,22 @@ cin 으로 받으면 공백을 기준으로 입력을 받게 됨 → 이는 `get
 
 ### split 함수 만들어서 쓰기 
 ```cpp
-vector<string> split(const string& input, string delimeter) {
-  vector<string> result;
-  auto start = 0;
-  auto end = input.find(delimeter);
-
-  while (end != string::npos) {
-    result.push_back(input.substr(start, end - start));
-    start = end + delimeter.size();
-    end = input.find(delimeter, start);
-  }
-  result.push_back(input.substr(start));
-  return result;
+stringstream ss(문자열);
+string temp;
+while (getline(ss, temp, '구분자')) {
+    // temp에 나눠진 문자열이 들어옴
 }
+```
+
+```cpp
+string s = "1,2,3";
+stringstream ss(s);
+string temp;
+int sum = 0;
+while (getline(ss, temp, ',')) {
+    sum += stoi(temp);
+}
+cout << sum;
 ```
 
 ### find, rfind 함수 
