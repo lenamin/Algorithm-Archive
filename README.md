@@ -271,6 +271,18 @@ while (getline(ss, temp, ',')) {
 cout << sum;
 ```
 
+### vector에서 특정 값 제거하기 
+```cpp
+vec.erase(remove(vec.begin(), vec.end(), value), vec.end());
+```
+
+### set에서 값 존재 확인 및 제거 
+```cpp
+if (myset.count(value)) {
+  myset.erase(value);
+}
+```
+
 ### find, rfind 함수 
 find는 원하는 값을 찾은 첫번째 위치를 반환한다. 
 뒤에서부터 찾고싶다면, `rfind`를 사용하면 된다. 
@@ -287,6 +299,24 @@ find는 원하는 값을 찾은 첫번째 위치를 반환한다.
     }
   }
 ```
+
+- 반환 타입 착각하지 말것 -> `iterator` 타입으로 반환하니까 받을 때 `auto` 타입으로 받아서, 바로 erase 할 수 있음 
+```cpp
+auto it = find(vec.begin(), vec.end(), value);
+if (it != vec.end()) {
+    vec.erase(it);
+}
+```
+
+### 벡터 순회 중에 값 지우는 문제 
+그럼 요소가 앞으로 당겨져서 인덱스 꼬일 수 있다. 
+vector 순회중에는 erase() 사용을 지양할 것. 필요한 경우 for문 종료 후 일괄처리 or set 사용을 고려할 것! (at 체육복 문제)
+
+### set_difference 사용 시 결과 바로 넣을 수 있다 
+```cpp
+set_difference(A.begin(), A.end(), B.begin(), B.end(), inserter(C, C.begin()));
+```
+단, `inserter` 로 감싸서 넣어줘야 한다는 것 잊지말기
 
 ### key <-> value 양방향 검색이 필요한 경우 자료구조를 하나만 쓰면 시간초과가 뜬다 
 - 예를 들어, 아래와 같이 map<int, string> 타입으로 선언했을 경우, value 값을 통해 key를 찾으려할 때 O(n) 만큼의 시간복잡도가 걸리므로 시간초과가 뜨는 것.
