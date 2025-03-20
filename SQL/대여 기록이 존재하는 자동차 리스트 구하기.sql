@@ -1,0 +1,6 @@
+SELECT DISTINCT(H.CAR_ID)
+FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY H, (SELECT CAR_ID
+                                           FROM CAR_RENTAL_COMPANY_CAR
+                                           WHERE CAR_TYPE = '세단') AS S
+WHERE H.CAR_ID = S.CAR_ID AND MONTH(START_DATE) = 10
+ORDER BY 1 DESC;
