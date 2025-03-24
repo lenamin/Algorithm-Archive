@@ -1,5 +1,45 @@
 
 
+## [대여 횟수가 많은 자동차들의 월별 대여 횟수 구하기](https://school.programmers.co.kr/learn/courses/30/lessons/151139)
+#### SQL 쿼리 작성 중 헷갈렸던 부분 정리
+
+**1. 서브쿼리 조건을 본쿼리에서도 걸어줘야 함.**
+- 특정 기간(예: 2022-08-01 ~ 2022-10-31) 내에 대여횟수가 5회 이상인 차량의 월별 대여 기록 추출
+	
+- 내가 한 실수: 서브쿼리에서만 날짜 조건을 걸고, 본쿼리에서는 걸지 않음<br> => 필터링된 차량의 전체 대여 기록이 월별 집계되어 의도와 다른 결과 발생<br> => 본 쿼리에도 같은 날짜 조건을 걸어줘야 함 
+<br><br>
+
+**2. 하지만 중복 쿼리가 생겨서 보기가 싫다. 이를 어떻게 피할 수 있을까??? ! -> CTE, WITH절 사용**
+	
+- CTE(Common Table Expression, WITH절)를 사용해 날짜 조건을 한 번만 작성하고 재사용 (but MySQL 8.0 이상부터 사용가능) 
+
+```sql
+WITH FilteredHistory AS (
+    SELECT *
+    FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+    WHERE START_DATE BETWEEN '2022-08-01' AND '2022-10-31'
+),
+QualifiedCars AS (
+    SELECT CAR_ID
+    FROM FilteredHistory
+    GROUP BY CAR_ID
+    HAVING COUNT(HISTORY_ID) >= 5
+)
+SELECT 
+    MONTH(F.START_DATE) AS MONTH,
+    F.CAR_ID,
+    COUNT(F.HISTORY_ID) AS RECORDS
+FROM 
+    FilteredHistory F
+JOIN 
+    QualifiedCars Q ON F.CAR_ID = Q.CAR_ID
+GROUP BY 
+    MONTH(F.START_DATE), F.CAR_ID
+ORDER BY 
+    MONTH ASC, F.CAR_ID DESC;
+```
+
+
 ## [문제](https://school.programmers.co.kr/learn/courses/30/lessons/151141)
 [코드](https://github.com/lenamin/Algorithm-Archive/commit/29798a0aad0b286bb492e36125088123820680ed)
 ### `DATEDIFF` vs `END_DATE - START_DATE` 의 차이 
