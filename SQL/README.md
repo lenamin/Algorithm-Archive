@@ -1,5 +1,30 @@
 
 
+## [자동차 종류 별 특정 옵션이 포함된 자동차 수 구하기 ](https://school.programmers.co.kr/learn/courses/30/lessons/151137)
+#### 부분 문자열에서 쓸 수 없는 것들 
+- `=` : 전체 문자열이 정확히 일치할 때만 사용됨 → 부분 문자열 비교 불가
+- `IN (...)` : 문자열이 완전히 일치할 경우만 포함 → LIKE와 함께 쓸 수 없음
+
+    ```sql 
+    -- 부분 문자열 비교에 적절하지 않음
+    WHERE OPTIONS IN ('%통풍시트%', '%열선시트%')
+
+    -- 전체 문자열 비교이므로 안 맞음
+    WHERE OPTIONS = '%통풍시트%'
+    ```
+
+#### 정확한 방식 
+- `OR` + `LIKE` 사용할 것 
+    ```sql
+    -- 예: '통풍시트', '열선시트', '가죽시트' 중 하나 이상 포함된 경우
+    WHERE OPTIONS LIKE '%통풍시트%'
+    OR OPTIONS LIKE '%열선시트%'
+    OR OPTIONS LIKE '%가죽시트%'
+   ```
+
+
+
+
 ## [대여 횟수가 많은 자동차들의 월별 대여 횟수 구하기](https://school.programmers.co.kr/learn/courses/30/lessons/151139)
 #### SQL 쿼리 작성 중 헷갈렸던 부분 정리
 
