@@ -1,4 +1,32 @@
 
+## [식품분류 별 가장 비싼 식품의 정보 조회하기](https://school.programmers.co.kr/learn/courses/30/lessons/131116)
+
+- GROUP BY로 최대값을 구한 후, 해당 값을 만족하는 행의 다른 컬럼을 추출하려면, 서브쿼리와 조인을 사용해 조건 매칭해야 한다.
+
+- 처음 쿼리 
+    ```sql
+    SELECT CATEGORY, MAX(PRICE) AS MAX_PRICE, PRODUCT_NAME
+    FROM FOOD_PRODUCT
+    WHERE CATEGORY = '과자' || CATEGORY = '국' || CATEGORY = '김치' || CATEGORY = '식용유'
+    GROUP BY CATEGORY
+    ORDER BY 2 DESC
+    ```
+    : 이 때 출력은 테케는 통과했지만, 정답으로 인정되지 않았다. 
+    : GROUP BY에서 MAX는 구할 수 있지만 출력된 PRODUCT_NAME은 반드시 MAX 값을 가진 PRODUCT_NAME이 아닐 수 있다는 것. 그래서 반드시 다음과 같이 서브쿼리 + 조인 형식으로 가져와야 함 
+
+    ```sql
+    SELECT C.CATEGORY, C.MAX_PRICE, P.PRODUCT_NAME
+    FROM FOOD_PRODUCT P
+    JOIN (SELECT CATEGORY, MAX(PRICE) AS MAX_PRICE
+        FROM FOOD_PRODUCT
+        WHERE CATEGORY IN ('과자', '국', '김치', '식용유')
+        GROUP BY CATEGORY
+        ORDER BY 2 DESC) AS C 
+    ON C.CATEGORY = P.CATEGORY AND C.MAX_PRICE = P.PRICE
+    ORDER BY 2 DESC;
+    ```
+
+<br><br>
 
 ## [자동차 종류 별 특정 옵션이 포함된 자동차 수 구하기 ](https://school.programmers.co.kr/learn/courses/30/lessons/151137)
 #### 부분 문자열에서 쓸 수 없는 것들 
