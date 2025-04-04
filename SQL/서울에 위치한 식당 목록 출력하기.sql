@@ -1,0 +1,14 @@
+-- REST_INFO, REST_REVIEW 테이블에서 
+-- 서울에 위치한 식당들의
+-- 식당 ID, 식당이름, 음식종류, 즐겨찾기 수, 주소, 리뷰 평균 점수 조회 
+-- 리뷰평균점수는 세번째자리에서 반올림
+-- order by average desc, 즐겨찾기 수 desc
+
+SELECT S.REST_ID, S.REST_NAME, S.FOOD_TYPE, S.FAVORITES, S.ADDRESS, ROUND(AVG(R.REVIEW_SCORE), 2) AS SCORE
+FROM REST_REVIEW R
+JOIN (SELECT REST_ID, REST_NAME, FOOD_TYPE, FAVORITES, ADDRESS
+      FROM REST_INFO
+      WHERE ADDRESS LIKE '서울%') S
+ON R.REST_ID = S.REST_ID
+GROUP BY REST_ID
+ORDER BY SCORE DESC, S.FAVORITES DESC
