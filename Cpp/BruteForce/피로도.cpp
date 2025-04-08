@@ -15,7 +15,7 @@ void dfs(int f, int dsize, vector<bool>& visited, vector<vector<int>> dungeons) 
             answer = max(answer, cnt);
             dfs(f - cf, i + 1, visited, dungeons);
             
-            cnt--; // true로 못간 경우 백트랙킹해주는 코드 !!!!!!!! ---- ** 
+        // cnt--; // true로 못간 경우 백트랙킹해주는 코드 !!!!!!!! ---- ** 
             visited[i] = false;
         } 
     }
