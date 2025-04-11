@@ -37,7 +37,6 @@ int main() {
 
     vector<int> pick(ctotal, 0);
     
-
     // 조합 돌리기 위한 pick 배열 생성 
     for (int i = ctotal - k; i < ctotal; i++) {
         pick[i] = 1;
@@ -46,8 +45,6 @@ int main() {
     do {
         int total = 0;
         // 1을 기준으로 선택된 치킨집 인덱스 조합 처리 
-        
-
         for (int i = 0; i < hs.size(); i++) { // 각 집 시작     
             int mdist = INT_MAX; // 집마다 최소 거리 초기화해야지 
             
@@ -63,11 +60,9 @@ int main() {
                     mdist = min(mdist, abs(cdx - hdx) + abs(cdy - hdy));
                 }
             }
-            
             total += mdist;
         }
         answer = min(answer, total);
-        
     } while (next_permutation(pick.begin(), pick.end()));
 
     cout << answer << '\n';
