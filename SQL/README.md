@@ -1,3 +1,17 @@
+## [조건에 맞는 개발자 찾기](https://school.programmers.co.kr/learn/courses/30/lessons/276034)
+
+```sql
+SELECT D.ID, D.EMAIL, D.FIRST_NAME, D.LAST_NAME
+FROM DEVELOPERS D
+WHERE D.SKILL_CODE & (SELECT SUM(CODE)
+                      FROM SKILLCODES
+                      WHERE NAME IN ('Python', 'C#')) > 0
+ORDER BY D.ID ASC;
+```
+
+- SKILL_CODES의 NAME에 파이썬이나 C#이 있다면, 그 코드들을 합산하고, 비트마스킹 & 연산자한게 0보다 크다는 것 == 겹치는 부분이 하나 이상 있다는 것 
+- JOIN은 굳이 필요없었음 → SKILLCODES NAME을 출력해야 하면 조인하는게 맞지만, 이 문제에서는 그런 조건이 없었으므로 서브쿼리만으로도 충분했음 
+
 
 ## [식품분류 별 가장 비싼 식품의 정보 조회하기](https://school.programmers.co.kr/learn/courses/30/lessons/131116)
 
