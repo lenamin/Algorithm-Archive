@@ -1,0 +1,11 @@
+-- PRODUCT_CODE 앞 2자리 별 상품 개수를 출력할 것 
+-- order by 상품 카테고리 코드 asc 
+
+SELECT C.CATEGORY, COUNT(PRODUCT_ID) AS PRODUCTS
+FROM (SELECT PRODUCT_ID, LEFT(PRODUCT_CODE, 2) AS CATEGORY
+      FROM PRODUCT) AS C
+GROUP BY C.CATEGORY
+ORDER BY C.CATEGORY ASC
+
+
+-- 왼쪽에서 문자열 자르는 함수는 LEFT 임 !!!!! 반대는 RIGHT 
