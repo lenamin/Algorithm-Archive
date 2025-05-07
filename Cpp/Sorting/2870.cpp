@@ -2,7 +2,6 @@
 using namespace std;
 
 vector<string> arrs;
-vector<int> arri;
 
 bool cmp(string &a, string &b) {
     // 1. 길이 다르면 길이 짧은 게 더 작은 숫자 
