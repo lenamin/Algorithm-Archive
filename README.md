@@ -1,5 +1,41 @@
 # Cheat Sheet 
 
+### stable_sort 구현하기
+#### `stable_sort` 
+  C++ 표준 라이브러리 `<algorithm>`에 포함된 **정렬 함수**로, **동일한 키 값에 대해서는 원래의 입력 순서를 유지**한다.
+
+```cpp
+#include <algorithm>
+
+stable_sort(시작_반복자, 끝_반복자, 비교_함수);
+```
+
+: `sort()`와 달리 **안정 정렬(stable sort)**을 제공 <br>
+: 내부적으로는 일반적으로 **Merge Sort** 기반으로 구현되어 있다고 한다.
+
+
+
+#### 시간 복잡도
+
+| 조건              | 시간 복잡도             |
+|------------------|--------------------------|
+| 평균/최악의 경우  | O(N log² N) (일반적으로) |
+| GNU/GCC STL 구현 | O(N log N)               |
+
+> **참고:** `sort()`는 `IntroSort` 기반으로 평균적으로 더 빠르지만, 입력 순서를 보장하지 않는다. (second값도 정렬해버림)
+
+```cpp
+// 예시
+vector<pair<int, string>> v = {{21, "Alice"}, {19, "Bob"}, {21, "Charlie"}};
+
+stable_sort(v.begin(), v.end(), [](auto& a, auto& b) {
+    return a.first < b.first;
+});
+// 출력: 19 Bob, 21 Alice, 21 Charlie  → Alice가 Charlie보다 먼저 출력됨
+```
+
+<br><br>
+
 ### [BFS를 활용해 치즈 녹이는 문제](https://www.acmicpc.net/status?user_id=julieeee&problem_id=2636&from_mine=1) 정리 
 
 #### 이 문제에서 BFS를 사용해야 하는 이유 
