@@ -1,5 +1,22 @@
 # String 
 
+### C++에서 대소문자 변환 : `toupper()`, `tolower()` 사용하기 
+
+- <cctype> 헤더 필요
+- char 하나에만 사용 가능 (string에는 직접 적용 불가)
+  ```cpp
+  char lower = tolower('A');  // 'a'
+  char upper = toupper('b');  // 'B'
+  ```
+
+- 문자열에 적용할 땐 반복문 사용:
+  ```cpp
+  for (char& c : s) c = tolower(c);
+  ```
+
+
+<br><br>
+
 
 ### [숫자처럼 정렬해야 하는 문자열 처리 문제](https://www.acmicpc.net/problem/2870) 정리
 문자열 속에 섞여 있는 숫자들을 추출해서 이를 숫자 기준으로 정렬 (비내림차순) 하는 문제
