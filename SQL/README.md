@@ -1,3 +1,78 @@
+## [입양 시각 구하기(2)](https://school.programmers.co.kr/learn/courses/30/lessons/59413)
+
+### `WITH RECURSIVE` 문법 
+```sql
+WITH RECURSIVE CTE명(컬럼명) AS (
+    SELECT 초기값
+    UNION ALL
+    SELECT 재귀적으로 누적될 값 FROM CTE명 WHERE 종료 조건
+)
+SELECT ...
+FROM CTE명;
+```
+
+
+- 초기값 : 재귀가 시작될 기준 값.
+- UNION ALL : 다음 값을 누적해서 생성.
+- 종료 조건 : 종료되지 않으면 무한루프 발생 주의!
+- **CTE(Common Table Expression)** : 일시적으로 쓰이는 임시 결과 테이블.
+
+
+    ```sql
+    WITH RECURSIVE HOURS AS (
+    SELECT 0 AS HOUR
+    UNION ALL
+    SELECT HOUR + 1 FROM HOURS WHERE HOUR < 23)
+    ```
+
+
+### 문제 요약
+- 입양 시간(`DATETIME`)에서 시(hour)를 기준으로 **0시부터 23시까지 입양 건수를 집계**해야 함.
+- 단, **해당 시간에 입양 기록이 없을 경우에도 0으로 출력되어야 함**.
+- 기본적인 `GROUP BY HOUR(DATETIME)` 방식으로는 **데이터가 없는 시간대는 누락**됨.
+
+<br>
+
+### 시도한 방법과 실패 원인
+
+1. `GROUP BY HOUR(DATETIME)`만 사용
+    ```sql
+    SELECT HOUR(DATETIME) AS HOUR, COUNT(*) 
+    FROM ANIMAL_OUTS 
+    GROUP BY HOUR(DATETIME)
+    ```
+    - 입양 기록이 있는 시간대만 결과에 포함됨.
+    - **입양이 없는 시간대(예: 0~6시 등)**는 아예 출력되지 않음.
+    
+    <br>
+
+2. LEFT JOIN으로 같은 테이블끼리 JOIN 시도
+    ```sql
+    SELECT HOUR(O1.DATETIME), ...
+    FROM ANIMAL_OUTS O1
+    LEFT JOIN ANIMAL_OUTS O2 ...
+    ```
+
+    -  LEFT JOIN을 했지만 기준 테이블 자체가 시간 목록이 아님.
+    -  없는 시간을 생성하지 못하므로 여전히 누락 발생.
+    
+    <br>
+
+3. WITH RECURSIVE 없이 UNION ALL로 시간 목록 수동 생성
+    ```sql
+    SELECT 0 AS HOUR UNION ALL SELECT 1 ...
+    ```
+    
+    -  데이터 누락 없이 출력 가능.
+    -  코드가 길고 반복적이며 유지보수가 어려움.
+
+
+
+<br><br>
+
+
+
+
 ## [조건에 맞는 개발자 찾기](https://school.programmers.co.kr/learn/courses/30/lessons/276034)
 
 ```sql
@@ -12,6 +87,7 @@ ORDER BY D.ID ASC;
 - SKILL_CODES의 NAME에 파이썬이나 C#이 있다면, 그 코드들을 합산하고, 비트마스킹 & 연산자한게 0보다 크다는 것 == 겹치는 부분이 하나 이상 있다는 것 
 - JOIN은 굳이 필요없었음 → SKILLCODES NAME을 출력해야 하면 조인하는게 맞지만, 이 문제에서는 그런 조건이 없었으므로 서브쿼리만으로도 충분했음 
 
+<br><br>
 
 ## [식품분류 별 가장 비싼 식품의 정보 조회하기](https://school.programmers.co.kr/learn/courses/30/lessons/131116)
 
@@ -65,7 +141,7 @@ ORDER BY D.ID ASC;
    ```
 
 
-
+<br><br>
 
 ## [대여 횟수가 많은 자동차들의 월별 대여 횟수 구하기](https://school.programmers.co.kr/learn/courses/30/lessons/151139)
 #### SQL 쿼리 작성 중 헷갈렸던 부분 정리
@@ -106,6 +182,7 @@ ORDER BY
     MONTH ASC, F.CAR_ID DESC;
 ```
 
+<br><br>
 
 ## [문제](https://school.programmers.co.kr/learn/courses/30/lessons/151141)
 [코드](https://github.com/lenamin/Algorithm-Archive/commit/29798a0aad0b286bb492e36125088123820680ed)
