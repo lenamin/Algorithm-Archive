@@ -1,3 +1,78 @@
+## [언어별 개발자 분류하기](https://school.programmers.co.kr/learn/courses/30/lessons/276036)
+
+### `WITH ___ AS ()` 
+```sql
+WITH HAS_FLAGED AS (
+    SELECT MAX(CASE WHEN SF.NAME = 'Python' THEN 1 ELSE 0 END) AS HAS_PYTHON,
+           MAX(CASE WHEN SF.CATEGORY = 'Front End' THEN 1 ELSE 0 END) AS HAS_FE,
+           MAX(CASE WHEN SF.NAME = 'C#' THEN 1 ELSE 0 END) AS HAS_CSHARP,
+           DF.ID, 
+           DF.EMAIL
+    FROM DEVELOPERS DF, SKILLCODES SF
+    WHERE DF.SKILL_CODE & SF.CODE = SF.CODE
+    GROUP BY DF.ID, DF.EMAIL)
+SELECT (CASE WHEN HAS_FLAGED.HAS_PYTHON = 1 AND HAS_FLAGED.HAS_FE = 1 THEN 'A'
+             WHEN HAS_FLAGED.HAS_CSHARP = 1 THEN 'B'
+             WHEN HAS_FLAGED.HAS_FE = 1 THEN 'C' END) AS GRADE, D.ID, D.EMAIL
+FROM DEVELOPERS D
+INNER JOIN HAS_FLAGED
+ON D.ID = HAS_FLAGED.ID 
+WHERE (CASE WHEN HAS_FLAGED.HAS_PYTHON = 1 AND HAS_FLAGED.HAS_FE = 1 THEN 'A'
+            WHEN HAS_FLAGED.HAS_CSHARP = 1 THEN 'B'
+            WHEN HAS_FLAGED.HAS_FE = 1 THEN 'C' END) IS NOT NULL
+ORDER BY GRADE, D.ID
+```
+
+- 반드시 만든걸 `FROM` 에서 가져와야 쓸 수 있다  
+
+<br>
+
+### Trouble Shooting 
+- **비트 연산으로 스킬을 어떻게 매핑해야 하는지 몰라서 막혔던 점**
+    - DEVELOPERS 테이블의 `SKILL_CODE`는 여러 기술의 코드 합으로 저장되어 있음
+    - SKILLCODES의 `CODE`는 2의 제곱수로 각각의 기술을 표현
+    - 즉, 어떤 개발자가 특정 기술을 가졌는지는 `D.SKILL_CODE & S.CODE = S.CODE`로 판별해야 함
+    
+<br>
+
+- **A등급 조건(Python + Front End)을 한 줄에서 판단하려다 실패**
+    - 처음에는 `CASE WHEN CATEGORY='Front End' AND NAME='Python' THEN 'A'`로 접근함
+    - 그런데 이 조건은 "하나의 기술이 동시에 Front End이고 Python인 경우"라서 성립 불가
+    - 문제에서 A등급은 **두 개의 기술을 "각각" 보유해야 함**
+    - 결국 한 줄로는 판단할 수 없고, **여러 줄의 기술 정보를 모아서 집계**해야했음 
+        
+<br>
+        
+- **개발자별 기술 보유 여부를 어떻게 표현해야 할지 몰라서 막힘**
+    - Python 있는지, Front End 있는지, C# 있는지를 일일이 확인해야 하는데
+        
+        SQL에서는 각 조건을 **불리언 플래그처럼 표현**하는 게 필요했음
+        
+    - `MAX(CASE WHEN NAME = 'Python' THEN 1 ELSE 0 END)` 형태를 사용해서
+        
+        각 기술의 보유 여부를 `HAS_PYTHON`, `HAS_FE`, `HAS_CSHARP` 같은 컬럼으로 만듦
+        
+    - 이 작업이 되어야 나중에 `CASE WHEN ... THEN GRADE` 분기가 가능해짐
+
+
+<br>
+
+- **SELECT절에서 만든 GRADE 컬럼을 WHERE절에서 필터링하려다 에러 발생**
+    - `SELECT CASE ... END AS GRADE`로 GRADE를 만들고,
+        
+        아래 WHERE절에서 `WHERE GRADE IS NOT NULL` 시도함
+        
+    - 하지만 GRADE는 SELECT절에서 **가상으로 만들어지는 컬럼이라**
+        
+        WHERE절에서는 아직 존재하지 않음
+        
+    - **해결 방법:**
+        - `CASE ... END`을 WHERE절에서도 그대로 복붙
+
+
+<br><br>
+
+
 ## [입양 시각 구하기(2)](https://school.programmers.co.kr/learn/courses/30/lessons/59413)
 
 ### `WITH RECURSIVE` 문법 
