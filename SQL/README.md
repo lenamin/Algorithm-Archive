@@ -1,3 +1,49 @@
+## [연간 평가점수에 해당하는 평가 등급 및 성과금 조회하기](https://school.programmers.co.kr/learn/courses/30/lessons/284528)
+### 1. GROUP BY 사용 시 주의점
+- SELECT에 나온 모든 일반 컬럼은 GROUP BY에 포함해야 함
+- MySQL은 예외적으로 실행되지만, 표준 SQL에서는 에러 발생
+
+    ```sql
+    -- 안전한 예시 (표준 SQL 호환)
+    SELECT E.EMP_NO, E.EMP_NAME, SUM(G.SCORE)
+    FROM HR_EMPLOYEES E
+    JOIN HR_GRADE G ON E.EMP_NO = G.EMP_NO
+    GROUP BY E.EMP_NO, E.EMP_NAME;
+    ```
+<br>
+
+### 2. CASE WHEN에는 ELSE 반드시 쓰기
+- 조건에 해당하지 않으면 NULL 반환 → 안정성 위해 기본값 설정
+
+    ```sql
+    -- 등급에 따른 보너스 계산
+    CASE 
+    WHEN GRADE = 'S' THEN SAL * 0.2
+    WHEN GRADE = 'A' THEN SAL * 0.15
+    WHEN GRADE = 'B' THEN SAL * 0.1
+    ELSE 0
+    END AS BONUS
+    ```
+
+<br>
+
+### 3. 기준 테이블은 명확히: G가 아니라 E
+- 직원 테이블이 중심, 평가 테이블은 부가 정보 → 조인도 E 기준
+
+    ```sql
+    -- 직원(E)을 기준으로 평가(G)를 조인
+    SELECT E.EMP_NO, E.EMP_NAME, 
+        CASE 
+            WHEN AVG(G.SCORE) >= 90 THEN 'A'
+            ELSE 'B'
+        END AS GRADE
+    FROM HR_EMPLOYEES E
+    JOIN HR_GRADE G ON E.EMP_NO = G.EMP_NO
+    GROUP BY E.EMP_NO, E.EMP_NAME;
+    ```
+
+<br><br>
+
 ## [언어별 개발자 분류하기](https://school.programmers.co.kr/learn/courses/30/lessons/276036)
 
 ### `WITH ___ AS ()` 
