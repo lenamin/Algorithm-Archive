@@ -1,5 +1,28 @@
 # Implementation
 
+### 이진 변환 함수 수동으로 생성 vs `bitset` 사용 
+- 1000미만으로 매우 적은 숫자면 bitset 사용 
+  ```cpp
+  bitset<16> b1(n);
+  string b1 = b1.to_string().sub_str(4);
+  ```
+
+- 150,000 등 매우 큰 수라면 직접 만드는게 낫다 
+  ```cpp
+  string makeOneBinary(int a) {
+    if (a == 1) { return "1"; }
+    
+    int m = a / 2;
+    
+    if (a % 2 == 1) {    
+        return makeOneBinary(m) + '1';
+    } else if (a % 2 == 0) {
+        return makeOneBinary(m) + '0';
+    }
+  }
+  ```
+<br><br>
+
 ### Fast Exponentiation 정리 
 - 백준 1629 곱셈문제를 단순히 곱하면 시간초과 남. <br>
 → 분할정복을 이용해 시간복잡도를 O(logb)로 줄인다 how? 
