@@ -1,4 +1,24 @@
-# Brute Force
+# Brute Force & Backtracking
+
+### 완탐인지 check
+- 문제에 최대 범위를 보고, 시간복잡도 따졌을 때 1억 미만 -> 완탐가능 
+    - 반복문을 활용한 완전탐색 : for, while 통해 선형적으로 찾기 
+    - 재귀를 활용한 완전탐색 : 반복문이 되면 무조건 반복문으로 but 조합, 순열 + DFS/BFS 등 꼬여있으면 재귀함수 
+
+<br>
+
+### 원복시키는 기본 꼴 
+상태값이 그 다음 경우의 수에 반영되지 않도록 하는 것! 
+```cpp
+go(int here) {
+    visited[there] = 1; // 방문처리 해줬다가
+    go(there);
+    visited[there] = 0; // 다시 돌려놓기
+}
+```
+
+<br><br>
+
 
 ### [삼총사](https://school.programmers.co.kr/learn/courses/30/lessons/131705) | 프로그래머스 
 
