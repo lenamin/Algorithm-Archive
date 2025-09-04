@@ -5,10 +5,6 @@ int k; // 총 테케 개수
 int n; // 문서의 개수 
 int m; // 몇번째에 놓여있는지 궁금한 인덱스 
 int cnt; 
-int targetidx;
-
-
-// map<int, int> mp;
 
 int main() {
     // 가장 첫번재 우선순위 조사 
@@ -32,13 +28,12 @@ int main() {
             pq.push(tmp);
         }
         
-
         while (!q.empty()) {
             int curMax = pq.top();
             auto now = q.front();
             
             q.pop();
-            
+
             if (now.second == curMax) { // 출력
                 
                 pq.pop();
