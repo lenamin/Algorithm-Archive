@@ -1,3 +1,40 @@
+
+## [윈도우 함수 이용해서 Department Highest Salary 풀기](https://leetcode.com/problems/department-highest-salary/description/)
+
+처음에 GROUP BY + MAX 만 써서 조인했더니 제일 큰 값 하나만 나왔다. 
+그래서 윈도우 함수 도입 ! 
+
+```SQL
+RANK() OVER (PARTITION BY 컬럼 ORDER BY 컬럼 DESC/ASC)
+```
+- OVER: 윈도우 함수의 범위 지정
+- PARTITION BY: 그룹별로 순위를 매김 (없으면 전체 데이터 기준)
+- ORDER BY: 순위를 매길 기준
+
+### RANK 함수 비교 
+
+| 함수                | 동점 처리 방식             |
+| ----------------- | -------------------- |
+| **RANK()**        | 같은 순위, 다음 순위 건너뜀     |
+| **DENSE\_RANK()** | 같은 순위, 다음 순위는 바로 이어짐 |
+| **ROW\_NUMBER()** | 무조건 고유 순위 (동점 없음)    |
+
+
+```sql
+
+WITH R AS (
+    SELECT ID, SALARY, RANK() OVER (PARTITION BY DEPARTMENTID ORDER BY SALARY DESC) AS RNK
+    FROM EMPLOYEE
+)
+SELECT D.NAME AS Department, E.NAME AS Employee, R.SALARY AS Salary
+FROM EMPLOYEE E
+JOIN DEPARTMENT D ON E.DEPARTMENTID = D.ID 
+JOIN R ON R.ID = E.ID
+WHERE R.RNK = 1
+
+
+```
+
 ## [연간 평가점수에 해당하는 평가 등급 및 성과금 조회하기](https://school.programmers.co.kr/learn/courses/30/lessons/284528)
 ### 1. GROUP BY 사용 시 주의점
 - SELECT에 나온 모든 일반 컬럼은 GROUP BY에 포함해야 함
