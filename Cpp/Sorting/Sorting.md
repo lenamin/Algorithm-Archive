@@ -1,5 +1,44 @@
 # Sorting 
 
+### Merge Sort 활용 : 뒤에서 채우기 ([LeetCode 88: Merge Sorted Array](https://github.com/lenamin/LeetCode/blob/main/0088-merge-sorted-array/0088-merge-sorted-array.cpp))
+
+**1. 왜 뒤에서부터 채워야함?**
+- nums1에 빈 공간이 뒤에 있으니까 큰 값부터 채우면 덮어쓰기 문제가 없음
+- 별도 배열 만들지 않고 in-place로 해결 가능
+- 시간복잡도 O(m+n), 공간복잡도 O(1)
+
+**2. while 조건 vs if 조건**
+- `while (s >= 0)`
+  - nums2의 원소가 다 소진될 때까지만 반복
+  - nums1은 남아 있어도 이미 자리에 있으니 따로 확인 불필요
+
+- `if (f >= 0 && nums1[f] > nums2[s])`
+  - nums1도 남아 있고, nums1의 값이 더 크면 nums1[f]를 뒤에 배치 / 아니면 nums2[s]를 배치
+
+**3. 코드 기본 구조**
+
+```cpp
+int f = m - 1;          // nums1 유효 구간 끝
+int s = n - 1;          // nums2 끝
+int k = m + n - 1;      // nums1 마지막 인덱스
+
+while (s >= 0) {        // nums2 다 쓸 때까지
+    if (f >= 0 && nums1[f] > nums2[s]) {
+        nums1[k--] = nums1[f--];
+    } else {
+        nums1[k--] = nums2[s--];
+    }
+}
+```
+
+
+**4. 이런 패턴이 자주 쓰이는 곳**
+- Merge Sort 병합 단계
+- 투 포인터(two pointers) 문제 (교집합, 합집합, 구간 병합 등)
+- 슬라이딩 윈도우 변형
+
+<br><br>
+
 ### stable_sort 구현하기
 #### `stable_sort` 
   C++ 표준 라이브러리 `<algorithm>`에 포함된 **정렬 함수**로, **동일한 키 값에 대해서는 원래의 입력 순서를 유지**한다.
