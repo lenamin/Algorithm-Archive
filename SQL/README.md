@@ -1,3 +1,36 @@
+## [CROSS JOIN 활용하기](https://leetcode.com/problems/students-and-examinations/description/?envType=study-plan-v2&envId=top-sql-50)
+
+### Trouble Shooting 
+
+- CROSS JOIN에서는 ON 절이 필요없다. 
+    - 시험 보지 않은 학생들 모두 나오게 할 때 CTE 절로 CROSS JOIN 을 미리 하는게 필요했다. 
+        ```sql
+        WITH DT AS (
+            SELECT S.STUDENT_ID, S.STUDENT_NAME, B.SUBJECT_NAME
+            FROM SUBJECTS B
+            CROSS JOIN STUDENTS S
+        )
+        ```
+
+- 이렇게 CROSS JOIN 을 한 DT와 Examinations 테이블을 LEFT JOIN 했는데 JOIN 조건에서  `E.SUBJECT_NAME = D.SUBJECT_NAME` 조건을 빠트리니 COUNT 할 떄 DT 기준으로 COUNT 를 하는 사건 발생 
+
+    ```sql
+    WITH DT AS (
+        SELECT S.STUDENT_ID, S.STUDENT_NAME, B.SUBJECT_NAME
+        FROM SUBJECTS B
+        CROSS JOIN STUDENTS S
+    )
+    SELECT D.STUDENT_ID, D.STUDENT_NAME, D.SUBJECT_NAME, COUNT(E.STUDENT_ID) AS attended_exams
+    FROM DT D
+    LEFT JOIN EXAMINATIONS E ON E.STUDENT_ID = D.STUDENT_ID AND E.SUBJECT_NAME = D.SUBJECT_NAME
+    GROUP BY D.STUDENT_ID, D.SUBJECT_NAME, D.STUDENT_NAME
+    ORDER BY D.STUDENT_ID
+    ```
+
+    과목 이름으로도 거는게 필요했던 것! 
+
+<br><br>
+
 
 ## [윈도우 함수 이용해서 Department Highest Salary 풀기](https://leetcode.com/problems/department-highest-salary/description/)
 
