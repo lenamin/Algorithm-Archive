@@ -1,3 +1,24 @@
+## [여러 개의 LIKE 조건 걸 때](https://leetcode.com/problems/patients-with-a-condition/?envType=study-plan-v2&envId=top-sql-50)
+- LIKE 를 여러개 걸 때 
+    ```sql
+    SELECT PATIENT_ID, PATIENT_NAME, CONDITIONS
+    FROM PATIENTS 
+    WHERE CONDITIONS LIKE 'DIAB1%' OR '% DIAB1%';
+    ```
+
+    - 이렇게 작성하면 `OR` 뒤는 그냥 TRUE 로 인식한다! 
+    - 별도로 작성해줄 것 
+
+    ```sql
+    -- (정상 동작)
+    SELECT PATIENT_ID, PATIENT_NAME, CONDITIONS
+    FROM PATIENTS 
+    WHERE CONDITIONS LIKE 'DIAB1%' 
+          OR CONDITIONS LIKE '% DIAB1%';
+    ```
+    
+<BR><BR>
+
 ## [CROSS JOIN 활용하기](https://leetcode.com/problems/students-and-examinations/description/?envType=study-plan-v2&envId=top-sql-50)
 
 ### Trouble Shooting 
