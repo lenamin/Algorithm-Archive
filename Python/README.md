@@ -1,4 +1,17 @@
-[Counter 활용하기](https://leetcode.com/problems/ransom-note/?envType=study-plan-v2&envId=top-interview-150)
+### zip 활용해서 동시에 순회하기
+-  zip()
+    두 문자열을 같은 인덱스끼리 짝지어 순회한다.
+    ```python
+    for f, e in zip(first, last):
+        ...
+    ```
+
+- 헷갈렸던 부분 : enumerate(iterable, start)에서 start가 시작인덱스 값이지, end값이 아니다! zip 이랑 헷갈림 
+
+
+<br><br>
+
+### [Counter 활용하기](https://leetcode.com/problems/ransom-note/?envType=study-plan-v2&envId=top-interview-150)
 
 **1. 원소 개수 확인**
 
